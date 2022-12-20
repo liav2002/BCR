@@ -67,15 +67,16 @@ def main():
             # Append label to y
             y.append(label)
 
-        x = x[1:, :]
+    # Delete first row of x
+    x = np.delete(x, 0, 0)
 
-        # save dataset
-        print("Saving training dataset...")
-        np.save(os.path.join(save_path, 'dataset.npy'), x)
-        np.save(os.path.join(save_path, 'labels.npy'), y)
+    # save dataset
+    print("Saving training dataset...")
+    np.save(os.path.join(save_path, 'dataset.npy'), x)
+    np.save(os.path.join(save_path, 'labels.npy'), y)
 
-        print(f"Saved! {os.path.join(save_path, 'dataset.npy')}")
-        print(f"Saved! {os.path.join(save_path, 'labels.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'dataset.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'labels.npy')}")
 
 
 if __name__ == '__main__':
