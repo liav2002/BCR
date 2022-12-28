@@ -7,11 +7,10 @@ import os
 import numpy as np
 import sys
 
-from train_model_methods.cnn_train_classifier import CNNTrainClassifier
-
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(PROJECT_PATH)
 
+from train_model_methods.cnn_train_classifier import CNNTrainClassifier
 
 def main():
     """
@@ -32,7 +31,6 @@ def main():
     # Load dataset
     x = np.load(os.path.join(load_path, 'cnn_dataset.npy'))
     y = np.load(os.path.join(load_path, 'cnn_labels.npy'))
-    print(x.ndim, x.shape, y.ndim, y.shape)
 
     # Instantiate TrainClassifier
     cnn_train_classifier = CNNTrainClassifier(x=x, y=y)
@@ -42,7 +40,7 @@ def main():
 
     # Save model
     print("Saving the model...")
-    model.save(save_path)
+    model.save(save_path + '\\cnn\\')
 
 if __name__ == '__main__':
     main()

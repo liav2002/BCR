@@ -6,6 +6,10 @@ from keras import layers, models
 from sklearn.model_selection import train_test_split
 from keras.callbacks import CSVLogger
 import timeit
+import os
+
+PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+output_path = PROJECT_PATH + '\\output\\model\\'
 
 class CNNTrainClassifier:
     """
@@ -28,13 +32,13 @@ class CNNTrainClassifier:
         :return: perf, history.
         """
 
-        print('Splitting train and test set. Test set size: 0.33%')
+        print('Splitting train and test set. Test set size: 0.25%')
 
         # Split into training and test set
         # note: in regular classifier, random_state = 0, stratify = self.y
         X_train, X_test, y_train, y_test = train_test_split(self.x,
                                                             self.y,
-                                                            test_size=0.33,
+                                                            test_size=0.25,
                                                             random_state=42)
 
         X_val, X_test, y_val, y_test = train_test_split(X_test,
@@ -53,8 +57,8 @@ class CNNTrainClassifier:
         model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Conv2D(64, (3, 3), activation='relu'))
         model.add(layers.Flatten())
-        model.add(layers.Dense(64, activation='softmax'))
-        model.add(layers.Dense(4))
+        model.add(layers.Dense(64, activation='relu'))
+        model.add(layers.Dense(4, activation='softmax'))
 
         model.compile('adam', 'sparse_categorical_crossentropy', ['accuracy'])
         model.summary()
@@ -64,8 +68,8 @@ class CNNTrainClassifier:
         print('Training classifier ...')
 
         # Fit on data - train the model
-        csv_logger = CSVLogger('log.csv', append=True, separator=';')
-        model.fit(X_train, y_train, epochs=3, 
+        csv_logger = CSVLogger(output_path + 'log.csv', append=True, separator=';')
+        model.fit(X_train, y_train, epochs=5, 
                             callbacks=[csv_logger], validation_data=(X_val, y_val))
 
         stop = timeit.default_timer()

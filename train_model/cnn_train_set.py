@@ -2,8 +2,6 @@
 @author: Liav Ariel. 2022. All rights reserved.
 """
 
-from train_model_methods import Reader
-from train_model_methods.cnn_feature_engineer import CNNFeatureEngineer
 import os
 import re
 import numpy as np
@@ -12,6 +10,9 @@ import sys
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(PROJECT_PATH)
+
+from train_model_methods import Reader
+from train_model_methods.cnn_feature_engineer import CNNFeatureEngineer
 
 label_to_int_dict = {
     "301 - Crying baby": 0,
