@@ -77,7 +77,7 @@ def main():
             y = np.append(y, [integer], axis=0)
 
     # Delete first row of x
-    x = x.reshape(567, 128)
+    x = x.reshape(567, 128, 431)
     x = np.delete(x, 0, axis=0)
 
     # save dataset
