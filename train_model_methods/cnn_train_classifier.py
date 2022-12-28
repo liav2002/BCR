@@ -4,8 +4,8 @@
 
 from keras import layers, models
 from sklearn.model_selection import train_test_split
+from keras.callbacks import CSVLogger
 import timeit
-
 
 class CNNTrainClassifier:
     """
@@ -64,8 +64,9 @@ class CNNTrainClassifier:
         print('Training classifier ...')
 
         # Fit on data - train the model
-        history = model.fit(X_train, y_train, epochs=3,
-                            validation_data=(X_val, y_val))
+        csv_logger = CSVLogger('log.csv', append=True, separator=';')
+        model.fit(X_train, y_train, epochs=3, 
+                            callbacks=[csv_logger], validation_data=(X_val, y_val))
 
         stop = timeit.default_timer()
 
@@ -75,6 +76,4 @@ class CNNTrainClassifier:
         score = model.evaluate(X_test, y_test, verbose=2)
         print(score)
 
-        perf = {}
-
-        return perf, history
+        return model
