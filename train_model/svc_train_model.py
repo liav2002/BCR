@@ -43,7 +43,7 @@ def main():
     print("Saving the model...")
 
     # Save model performance
-    with open(os.path.join(save_path, 'svc_model_performance.json'), 'w') as fp:
+    with open(os.path.join(save_path, 'svc_best_score.json'), 'w') as fp:
         json.dump(performance, fp)
 
     # Save best parameters
@@ -51,7 +51,7 @@ def main():
         json.dump(parameters, fp)
 
     # Save best estimator
-    with open(os.path.join(save_path, 'svc_best_estimator.pkl'), 'wb') as fp:
+    with open(os.path.join(save_path, 'svc_best_model.pkl'), 'wb') as fp:
         pickle.dump(best_estimator, fp)
 
     print(f"Saved! {os.path.join(save_path, 'svc_best_score.json')}")
