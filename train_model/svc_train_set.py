@@ -8,7 +8,7 @@ import numpy as np
 import argparse
 
 from train_model_methods import Reader
-from train_model_methods.feature_engineer import FeatureEngineer
+from train_model_methods.svc_feature_engineer import FeatureEngineer
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 

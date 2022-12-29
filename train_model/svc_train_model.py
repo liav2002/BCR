@@ -8,7 +8,7 @@ import os
 import pickle
 import numpy as np
 
-from train_model_methods.train_classifier import TrainClassifier
+from train_model_methods.svc_train_classifier import TrainClassifier
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -53,6 +53,10 @@ def main():
     # Save best estimator
     with open(os.path.join(save_path, 'best_estimator.pkl'), 'wb') as fp:
         pickle.dump(best_estimator, fp)
+
+    print(f"Saved! {os.path.join(save_path, 'model_performance.json')}")
+    print(f"Saved! {os.path.join(save_path, 'best_parameters.json')}")
+    print(f"Saved! {os.path.join(save_path, 'best_estimator.pkl')}")
 
 
 if __name__ == '__main__':

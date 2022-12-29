@@ -7,12 +7,11 @@ import re
 import numpy as np
 import argparse
 import sys
+from train_model_methods import Reader
+from train_model_methods.cnn_feature_engineer import CNNFeatureEngineer
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(PROJECT_PATH)
-
-from train_model_methods import Reader
-from train_model_methods.cnn_feature_engineer import CNNFeatureEngineer
 
 label_to_int_dict = {
     "301 - Crying baby": 0,

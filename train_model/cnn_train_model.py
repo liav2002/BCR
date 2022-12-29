@@ -6,11 +6,11 @@ import argparse
 import os
 import numpy as np
 import sys
+from train_model_methods.cnn_train_classifier import CNNTrainClassifier
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(PROJECT_PATH)
 
-from train_model_methods.cnn_train_classifier import CNNTrainClassifier
 
 def main():
     """
@@ -41,6 +41,9 @@ def main():
     # Save model
     print("Saving the model...")
     model.save(save_path + '\\cnn\\')
+    print(f"Saved! {os.path.join(save_path, 'cnn')}")
+    print(f"Saved! {os.path.join(save_path, 'log.csv')}")
+
 
 if __name__ == '__main__':
     main()
