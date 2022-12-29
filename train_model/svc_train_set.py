@@ -72,11 +72,11 @@ def main():
 
     # save dataset
     print("Saving training dataset...")
-    np.save(os.path.join(save_path, 'dataset.npy'), x)
-    np.save(os.path.join(save_path, 'labels.npy'), y)
+    np.save(os.path.join(save_path, 'svc_dataset.npy'), x)
+    np.save(os.path.join(save_path, 'svc_labels.npy'), y)
 
-    print(f"Saved! {os.path.join(save_path, 'dataset.npy')}")
-    print(f"Saved! {os.path.join(save_path, 'labels.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_dataset.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_labels.npy')}")
 
 
 if __name__ == '__main__':
