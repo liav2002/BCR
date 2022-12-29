@@ -54,9 +54,9 @@ def main():
     with open(os.path.join(save_path, 'svc_best_estimator.pkl'), 'wb') as fp:
         pickle.dump(best_estimator, fp)
 
-    print(f"Saved! {os.path.join(save_path, 'svc_model_performance.json')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_best_score.json')}")
     print(f"Saved! {os.path.join(save_path, 'svc_best_parameters.json')}")
-    print(f"Saved! {os.path.join(save_path, 'svc_best_estimator.pkl')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_best_model.pkl')}")
 
 
 if __name__ == '__main__':
