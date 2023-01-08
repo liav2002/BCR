@@ -10,3 +10,4 @@ output/dataset/cnn_dataset.npy
 output/dataset/cnn_labels.npy
 output/dataset/svc_dataset.npy
 output/dataset/svc_labels.npy
+output/record.wav
