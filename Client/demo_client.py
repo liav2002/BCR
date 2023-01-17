@@ -21,8 +21,8 @@ def main():
         while True:
             data = sock.recv(1024)
             print(data.decode())
-            if "closing connection..." in data.decode():
-                break
+            # check if the connection is still alive
+            sock.sendall("".encode())
 
     except Exception as e:
         print("Error: ", e)
@@ -30,8 +30,6 @@ def main():
         return
 
     finally:
-        print("Send 'close' to close the connection")
-        sock.sendall("close".encode())
         print("closing socket")
         sock.close()
 

@@ -33,6 +33,7 @@ class Server:
 
     def handle_client(self, connection, client_address):
         try:
+            self.close_connection = False
             msg = "Connected!\nI will predict if the audio file is a baby cry or not.\nChoose a model:\n1. CNN\n2. SVC\n"
             connection.sendall(msg.encode())
 
@@ -49,8 +50,8 @@ class Server:
                 connection.sendall("The model type is not supported.\nclosing connection...\n".encode())
                 return
 
-            check_close_socket_thread = threading.Thread(target=Server.end_conversation, args=(self, connection))
-            check_close_socket_thread.start()
+            # Check if connection is still alive
+            threading.Thread(target=self.check_connection_status, args=(connection,)).start()
 
             # Receive the data in small chunks and retransmit it
             while not self.close_connection:
@@ -58,7 +59,9 @@ class Server:
                 result = cry_detection(filename, model, num_of_frames=5)
                 if result == 1:
                     print("Baby cry detected! --> Send message to the parent")
-                    connection.sendall("Baby cry detected!\n".encode())
+                    connection.sendall("Baby cry detected!\n".encode()) if not self.close_connection else None
+                else:
+                    connection.sendall("clear\n".encode()) if not self.close_connection else None
 
         except Exception as e:
             print("No connection from parent's application. Error: ", e)
@@ -71,12 +74,13 @@ class Server:
             connection.close()
             print("Connection closed.\n Waiting for new connection...\n")
 
-    def end_conversation(self, connection):
+    def check_connection_status(self, connection):
         try:
-            data = connection.recv(1024)
-            if data.decode() == "close":
-                connection.sendall("closing connection...\n".encode())
+            connection.sendall("".encode())
+            if connection.recv(1024).decode() == "close":
                 self.close_connection = True
+                print("Connection closed by the parent's application.")
+
         except Exception as e:
             print("Error: ", e)
             self.close_connection = True
