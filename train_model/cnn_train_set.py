@@ -6,11 +6,19 @@ import os
 import re
 import numpy as np
 import argparse
-
+import sys
 from train_model_methods import Reader
-from train_model_methods.feature_engineer import FeatureEngineer
+from train_model_methods.cnn_feature_engineer import CNNFeatureEngineer
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(PROJECT_PATH)
+
+label_to_int_dict = {
+    "301 - Crying baby": 0,
+    "901 - Silence": 1,
+    "902 - Noise": 2,
+    "903 - Baby laugh": 3
+}
 
 
 def main():
@@ -35,17 +43,17 @@ def main():
     directory_list = [i for i in os.listdir(load_path) if regex.search(i)]
 
     # initialize empty array for features
-    x = np.empty([1, 18])
+    x = np.zeros([1, 128, 431])
 
     # initialize empty array for labels
-    y = []
+    y = np.zeros(0)
 
     print("Creating dataset for training the model...")
 
     # iteration on sub-folders
     for directory in directory_list:
         # Instantiate FeatureEngineer
-        feature_engineer = FeatureEngineer(label=directory)
+        cnn_feature_engineer = CNNFeatureEngineer(label=directory)
 
         # list files in sub-folder
         file_list = os.listdir(os.path.join(load_path, directory))
@@ -59,24 +67,26 @@ def main():
             audio_data, sample_rate = reader.read_audio_file()
 
             # Engineer features
-            avg_features, label = feature_engineer.feature_engineer(audio_data=audio_data)
+            mel_spec, label = cnn_feature_engineer.feature_engineer(audio_data=audio_data)
 
-            # Append feature to x
-            x = np.concatenate((x, avg_features), axis=0)
+            # Append feature to x (dimensionality is 1, size is 128*431)
+            x = np.append(x, mel_spec)
 
             # Append label to y
-            y.append(label)
+            integer = label_to_int_dict[label]
+            y = np.append(y, [integer], axis=0)
 
     # Delete first row of x
-    x = np.delete(x, 0, 0)
+    x = x.reshape(567, 128, 431)
+    x = np.delete(x, 0, axis=0)
 
     # save dataset
     print("Saving training dataset...")
-    np.save(os.path.join(save_path, 'dataset.npy'), x)
-    np.save(os.path.join(save_path, 'labels.npy'), y)
+    np.save(os.path.join(save_path, 'cnn_dataset.npy'), x)
+    np.save(os.path.join(save_path, 'cnn_labels.npy'), y)
 
-    print(f"Saved! {os.path.join(save_path, 'dataset.npy')}")
-    print(f"Saved! {os.path.join(save_path, 'labels.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'cnn_dataset.npy')}")
+    print(f"Saved! {os.path.join(save_path, 'cnn_labels.npy')}")
 
 
 if __name__ == '__main__':

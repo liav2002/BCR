@@ -1,3 +1,13 @@
 .idea
 __pycache__
 venv
+output/model/cnn/
+output/model/log.csv
+output/model/svc_best_model.pkl
+output/model/svc_best_parameters.json
+output/model/svc_best_score.json
+output/dataset/cnn_dataset.npy
+output/dataset/cnn_labels.npy
+output/dataset/svc_dataset.npy
+output/dataset/svc_labels.npy
+output/record.wav

@@ -8,7 +8,7 @@ import os
 import pickle
 import numpy as np
 
-from train_model_methods.train_classifier import TrainClassifier
+from train_model_methods.svc_train_classifier import TrainClassifier
 
 PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -30,8 +30,8 @@ def main():
     save_path = os.path.normpath(args.save_path)
 
     # Load dataset
-    x = np.load(os.path.join(load_path, 'dataset.npy'))
-    y = np.load(os.path.join(load_path, 'labels.npy'))
+    x = np.load(os.path.join(load_path, 'svc_dataset.npy'))
+    y = np.load(os.path.join(load_path, 'svc_labels.npy'))
 
     # Instantiate TrainClassifier
     train_classifier = TrainClassifier(x=x, y=y)
@@ -43,16 +43,20 @@ def main():
     print("Saving the model...")
 
     # Save model performance
-    with open(os.path.join(save_path, 'model_performance.json'), 'w') as fp:
+    with open(os.path.join(save_path, 'svc_best_score.json'), 'w') as fp:
         json.dump(performance, fp)
 
     # Save best parameters
-    with open(os.path.join(save_path, 'best_parameters.json'), 'w') as fp:
+    with open(os.path.join(save_path, 'svc_best_parameters.json'), 'w') as fp:
         json.dump(parameters, fp)
 
     # Save best estimator
-    with open(os.path.join(save_path, 'best_estimator.pkl'), 'wb') as fp:
+    with open(os.path.join(save_path, 'svc_best_model.pkl'), 'wb') as fp:
         pickle.dump(best_estimator, fp)
+
+    print(f"Saved! {os.path.join(save_path, 'svc_best_score.json')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_best_parameters.json')}")
+    print(f"Saved! {os.path.join(save_path, 'svc_best_model.pkl')}")
 
 
 if __name__ == '__main__':
