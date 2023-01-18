@@ -52,7 +52,8 @@ def record():
 
     return filename, frames
 
-def slide_window(frames,stride):
+
+def slide_window(frames, stride):
     """
     This function records 5 sec audio from the microphone and saves it to a file.
     """
@@ -79,7 +80,7 @@ def slide_window(frames,stride):
     frames = frames[stride:]  # Initialize array to store frames
 
     # Store data in chunks for 5 seconds
-    for _ in range(seconds-stride, int(fs / chunk * seconds)):
+    for _ in range(seconds - stride, int(fs / chunk * seconds)):
         data = stream.read(chunk)
         frames.append(data)
 
@@ -100,4 +101,4 @@ def slide_window(frames,stride):
     wf.writeframes(b''.join(frames))
     wf.close()
 
-    return filename,frames
+    return filename, frames

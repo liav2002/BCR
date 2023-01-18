@@ -1,7 +1,7 @@
 import socket
 import threading
 from prediction_methods.prediction import cry_detection
-from recorder.record import record,slide_window
+from recorder.record import record, slide_window
 
 
 class Server:
@@ -62,7 +62,7 @@ class Server:
                     connection.sendall("Baby cry detected!\n".encode()) if not self.close_connection else None
                 else:
                     connection.sendall("clear\n".encode()) if not self.close_connection else None
-                filename,frames = slide_window(frames,stride=1)
+                filename, frames = slide_window(frames, stride=1)
 
         except Exception as e:
             print("No connection from parent's application. Error: ", e)
