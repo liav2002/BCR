@@ -1,7 +1,7 @@
 import socket
 import threading
 from prediction_methods.prediction import cry_detection
-from recorder.record import record
+from recorder.record import record,slide_window
 
 
 class Server:
@@ -54,14 +54,15 @@ class Server:
             threading.Thread(target=self.check_connection_status, args=(connection,)).start()
 
             # Receive the data in small chunks and retransmit it
+            filename, frames = record()
             while not self.close_connection:
-                filename = record()
                 result = cry_detection(filename, model, num_of_frames=5)
                 if result == 1:
                     print("Baby cry detected! --> Send message to the parent")
                     connection.sendall("Baby cry detected!\n".encode()) if not self.close_connection else None
                 else:
                     connection.sendall("clear\n".encode()) if not self.close_connection else None
+                filename,frames = slide_window(filename,frames,stride=1)
 
         except Exception as e:
             print("No connection from parent's application. Error: ", e)
