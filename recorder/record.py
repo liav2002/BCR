@@ -52,7 +52,7 @@ def record():
 
     return filename, frames
 
-def slide_window(filename,frames,stride):
+def slide_window(frames,stride):
     """
     This function records 5 sec audio from the microphone and saves it to a file.
     """
